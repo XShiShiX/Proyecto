@@ -26,9 +26,9 @@ Route::get('/registration', [SessionsController::class, 'registration']);
 
 Route::post('/register-user', [SessionsController::class, 'registerUser'])->name('register-user');
 
+Route::post('login-user', [SessionsController::class, 'loginUser'])->name('login-user');
 
-
-
+Route::get('/dashboard', [SessionsController::class, 'dashboard']);
 
 
 
