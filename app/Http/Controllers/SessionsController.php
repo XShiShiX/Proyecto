@@ -37,6 +37,7 @@ class SessionsController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->is_admin = $request->is_admin;
         $user->password = Hash::make($request->password);
         $res = $user->save();
 
@@ -57,17 +58,28 @@ class SessionsController extends Controller
     {
 
         $request->validate([
+
             'email'=>'required|email',
-            'password'=>'required|min:4|max:8'
+            'password'=>'required|min:4|max:8',
+
+
         ]);
 
         $user = User::where('email', '=', $request->email)->first();
         if($user){
             if (Hash::check($request->password, $user->password)) {
 
+                if ($user->is_admin) {
+
+                    return redirect()->route('admin.index');
+
+                }
+                else{
+
                 $request->session()->put('loginId', $user->id);
                 return redirect('dashboard');
 
+}
             }else{
 
                 return back()->with('fail', 'Password not matches.');
@@ -84,7 +96,13 @@ class SessionsController extends Controller
 
     public function dashboard(){
 
-        return view('landing');
+        return view('dashboard');
+
+    }
+
+    public function landing(){
+
+        return view('layouts.landing');
 
     }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,15 +22,18 @@ Route::match(['get', 'post'], '/dashboard', function(){
     return view('dashboard');
 });
 
+Route::view('/admin', 'admin');
+
 Route::get('/login', [SessionsController::class, 'login']);
 Route::get('/registration', [SessionsController::class, 'registration']);
+Route::get('/dashboard', [SessionsController::class, 'dashboard']);
+Route::get('/admin', [AdminController::class, 'index']);
 
 Route::post('/register-user', [SessionsController::class, 'registerUser'])->name('register-user');
 
 Route::post('login-user', [SessionsController::class, 'loginUser'])->name('login-user');
 
-Route::get('/dashboard', [SessionsController::class, 'dashboard']);
-
+Route::post('/admin', [AdminController::class, 'index'])->middleware('auth.admin')->name('admin.index');
 
 
 
