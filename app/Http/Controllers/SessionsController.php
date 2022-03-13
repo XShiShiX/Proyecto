@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Stmt\Echo_;
-use Session;
+
 
 
 class SessionsController extends Controller
@@ -70,14 +70,13 @@ class SessionsController extends Controller
             if (Hash::check($request->password, $user->password)) {
 
                 if ($user->is_admin) {
-
                     return redirect()->route('admin.index');
 
                 }
                 else{
 
                 $request->session()->put('loginId', $user->id);
-                return redirect('dashboard');
+                return view('landing');
 
 }
             }else{
@@ -105,5 +104,6 @@ class SessionsController extends Controller
         return view('layouts.landing');
 
     }
+
 
 }

@@ -35,7 +35,9 @@ Route::post('login-user', [SessionsController::class, 'loginUser'])->name('login
 
 Route::post('/admin', [AdminController::class, 'index'])->middleware('auth.admin')->name('admin.index');
 
+Route::get('/admin-create', [AdminController::class, 'create'])->name('users');
 
+Route::resource('users', 'App\Https\Controller\AdminController');
 
 /*
 Route::get('/login', function () {
